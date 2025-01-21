@@ -2,40 +2,42 @@
 
 using namespace std;
 
-struct namespace
-{
-    float x, y;
-} line;
 int main ()
 {
-    int numOflines, max = 0;
+    int numOflines;
     cout << "Size of Lines Array: ";
     cin >> numOflines;
-    line* lines = new line [numOflines];
+    
+    cout << endl;
+    float* height = new float [numOflines];
     
     //fill array (with line heights)
     for (int i = 0; i < numOflines; i++)
     {
         cout << "LINE NUMBER " << i + 1 << endl;
         cout << "Height: ";
-        cin >> lines.y[i];
-        cout << "Position: ";
-        cin >> lines.x[i];
+        cin >> height[i];
     }
     
-    float lowerHeight;
+    float lowerHeight, width, max = 0;
     
     //find nums
     for (int i = 0; i < numOflines; i++)
     {
-        for (int j = 0; j < numOflines; j++)
+        for (int j = i + 1; j < numOflines; j++)
         {
-            if (lines.y[i] > lines.y[j])
-            lowerHeight = lines.y[j];
+            if (height[i] > height[j])
+            lowerHeight = height[j];
             
             else
-            lowerHeight = lines.y[i];l
+            lowerHeight = height[i];
+            
+            width = j - i;
+            
+            if (lowerHeight * width > max)
+            max = lowerHeight * width;
         }
     }
-    //toComplete
+
+    cout << endl << "Max Area b/w lines (container capacity) is " << max;
 }
