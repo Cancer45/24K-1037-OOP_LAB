@@ -60,5 +60,4 @@ int main ()
                 cout << "Organizer: " << event[i].organizer << endl;
             }
         }
-    
 }
