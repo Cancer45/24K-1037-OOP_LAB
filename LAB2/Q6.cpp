@@ -33,6 +33,8 @@ int main ()
 		cin >> student[i].courses.courseID;
 	}
 	
+	cout << "ALL INFO" << endl;
+	
 	for (int i = 0; i < 5; i++)
 	{
 		cout << endl << "STUDENT " << i + 1 << endl;
