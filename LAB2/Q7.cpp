@@ -1,5 +1,4 @@
 #include <iostream>
-#include <stdlib.h>
 
 #define MAX_PRODUCTS 50
 
