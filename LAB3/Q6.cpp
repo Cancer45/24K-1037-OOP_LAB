@@ -92,7 +92,8 @@ class Smartphone
     }
 };
 
-int main() {
+int main() 
+{
 
     Smartphone phone1, phone2;
 
