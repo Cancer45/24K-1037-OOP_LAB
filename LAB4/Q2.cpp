@@ -29,7 +29,7 @@ class Book
 class Library
 {
     int numBooks = 0;
-    Book* allBooks;
+    Book* allBooks = nullptr;
 
     public:
     void addBook (std::string title, std::string author)
@@ -59,13 +59,13 @@ class Library
                     if (allBooks[i].availability)
                     {
                         allBooks[i].availability = false;
-                        std::cout << allBooks[i].title << " with ID " << allBooks[i].ID << "borrowed." << std::endl;
+                        std::cout << allBooks[i].title << " with ID " << allBooks[i].ID << " borrowed." << std::endl;
                         return;
                     }
 
                     else
                     {
-                        std::cout << allBooks[i].title << " with ID " << allBooks[i].ID << "not available." << std::endl;
+                        std::cout << allBooks[i].title << " with ID " << allBooks[i].ID << " not available." << std::endl;
                         return;
                     }
                 }
@@ -85,13 +85,13 @@ class Library
                     if (!allBooks[i].availability)
                     {
                         allBooks[i].availability = true;
-                        std::cout << allBooks[i].title << " with ID " << allBooks[i].ID << "returned." << std::endl;
+                        std::cout << allBooks[i].title << " with ID " << allBooks[i].ID << " returned." << std::endl;
                         return;
                     }
 
                     else
                     {
-                        std::cout << allBooks[i].title << " with ID " << allBooks[i].ID << "not borrowed by anyone." << std::endl;
+                        std::cout << allBooks[i].title << " with ID " << allBooks[i].ID << " not borrowed by anyone." << std::endl;
                         return;
                     }
                 }
@@ -107,7 +107,7 @@ class Library
 
         for (int i = 0; i < numBooks; i++)
         {
-            std::cout << "BOOK " << i + 1 << std::endl << std::endl;
+            std::cout << std::endl << "BOOK " << i + 1 << std::endl;
             std::cout << "Title: " << allBooks[i].title << std::endl;
             std::cout << "Author: " << allBooks[i].author << std::endl;
             std::cout << "ID: " << allBooks[i].ID << std::endl;
@@ -133,5 +133,12 @@ int main ()
     library.borrowBook (0);
     library.displayAll ();
     library.returnBook (0);
+    library.displayAll ();
+    library.addBook("The Count of Monte Cristo", "Alexandre Dumas");
+
+    library.borrowBook (1);
+    library.displayAll ();
+    library.returnBook (1);
+    library.displayAll ();
 }
 
