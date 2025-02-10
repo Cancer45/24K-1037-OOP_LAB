@@ -38,7 +38,7 @@ class Account
     {
         std::cout << "Name: " << accHolderName << std::endl;
         std::cout << "Acc No: " << accNum << std::endl;
-        std::cout << "Balance: " << balance << std::endl;
+        std::cout << "Balance: " << balance << std::endl << std::endl;
     }
 };
 
