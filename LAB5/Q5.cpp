@@ -131,13 +131,36 @@ class Steering //COMPOSE THIS
 
 class Car
 {
-    Engine engine();
-    Steering steering();
-    Headlight* headlight();
-    Wheels* wheels ();
+    Engine engine;
+    Steering steering;
+    Headlight* headlight;
+    Wheels* wheels;
 
     public:
-    Car (Headlight* headlight, Wheels* wheels) : headlight(headlight), wheels(wheels) {}
+    Car (Headlight* headlight, Wheels* wheels) : headlight(headlight), wheels(wheels) 
+    {
+		std::cout << "CAR CREATED" << std::endl;
+    }
 
+	~Car ()
+	{
+		std::cout << "CAR DESTROYED" << std::endl;
+	}
+
+	void startCar ()
+	{
+		engine.start();
+		steering.turn();
+		headlight -> switchON();
+		wheels -> turn();
+	}
     //TO BE COMPLETED
 };
+
+int main ()
+{
+	Wheels wheels;
+	Headlight headlight;
+	Car car(&headlight, &wheels);
+	car.startCar();
+}
