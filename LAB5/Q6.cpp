@@ -1,4 +1,4 @@
-#include <iostrem>
+#include <iostream>
 
 class GREngine
 {
@@ -29,9 +29,42 @@ class PhysicsEngine
 
 class GameEngine
 {
-    GREngine renderer();
-    InputHandler handler();
-    PhysicsEngine simulator();
+    GREngine renderer;
+    InputHandler handler;
+    PhysicsEngine simulator;
 
-    //TO BE COMPLETED    
+	public:
+	GameEngine ()
+	{
+		std::cout << "GAME ENGINE INIT" << std::endl;
+	}
+
+	~GameEngine ()
+	{
+		std::cout << "GAME ENGINE DESTROYED" << std::endl;
+	}
+
+	//getters
+	GREngine getRenderer()
+	{
+		return renderer;
+	}
+
+	InputHandler getHandler()
+	{
+		return handler;
+	}
+
+	PhysicsEngine getSimulator ()
+	{
+		return simulator;
+	}
+};
+
+int main ()
+{
+	GameEngine engine;
+	engine.getRenderer().renderGraphics();
+	engine.getHandler().handleInputs();
+	engine.getSimulator().doPhysics();
 }
