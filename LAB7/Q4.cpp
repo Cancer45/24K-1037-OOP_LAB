@@ -79,13 +79,21 @@ class Professor : public Person
 	
 	public:
 	Professor () {}
-	Professor (std::string name, std::string ID, std::string address, std::string email, long phone_number, std::string department, std::string* courses_taught, float salary, int num_courses) : Person (name, ID, address, email, phone_number), department(department), salary(salary), courses_taught(courses_taught), num_courses(num_courses)
+	Professor (std::string name, std::string ID, std::string address, std::string email, long phone_number, std::string department, std::string* courses_taught, float salary, int num_courses) : Person (name, ID, address, email, phone_number), department(department), salary(salary), num_courses(num_courses)
 	{
 		this -> courses_taught = new std::string [num_courses];
 
 		for (int i = 0; i < num_courses; i++)
 			this -> courses_taught[i] = courses_taught[i];
 	}
+
+	Professor(const Professor& other) : Person(other), department(other.department), salary(other.salary), num_courses(other.num_courses) 
+	{
+    	courses_taught = new std::string[num_courses];
+    	for (int i = 0; i < num_courses; i++)
+        	courses_taught[i] = other.courses_taught[i];
+	}
+
 
 	~Professor ()
 	{
@@ -94,7 +102,7 @@ class Professor : public Person
 
 	void displayInfo ()
 	{
-		std::cout << "Name: " << name << "\nID: " << ID << "\nSalary: " << salary << "Department: " << department << "\n Num Courses: " << num_courses << "COURSES TAUGHT\n"<< std::endl;
+		std::cout << "Name: " << name << "\nID: " << ID << "\nSalary: " << salary << "\nDepartment: " << department << "\nNum Courses: " << num_courses << "\nCOURSES TAUGHT\n"<< std::endl;
 
 		for (int i = 0; i < num_courses; i++)
 			std::cout << courses_taught[i] << std::endl;
@@ -127,6 +135,11 @@ class Course
 	Course () {}
 	Course (Professor instructor, std::string course_ID, std::string course_name, int credits) : instructor(instructor), course_ID(course_ID), course_name(course_name), credits(credits) {}
 
+	~Course ()
+	{
+		delete [] registered;
+	}
+
 	void registerStudent (Student& to_register)
 	{
 		std::string* tmpArray = new std::string [num_registered + 1];
@@ -156,3 +169,42 @@ class Course
 			std::cout << "E" << std::endl;
 	}
 };
+
+int main() 
+{
+    // Creating a student
+    std::string studentCourses[] = {"Math", "Physics", "Computer Science"};
+    Student student("John Doe", "S123", "123 Elm Street", "johndoe@example.com", 1234567890, studentCourses, 3.8, 2022, 3);
+    
+    // Creating a professor
+    std::string profCourses[] = {"Algorithms", "Data Structures"};
+    Professor professor("Dr. Smith", "P456", "456 Oak Avenue", "drsmith@example.com", 9876543210, "Computer Science", profCourses, 75000.0, 2);
+    
+    // Creating a staff member
+    Staff staff("Jane Doe", "ST789", "789 Pine Road", "janedoe@example.com", 1122334455, "Administration", "Manager", 55000.0);
+    
+    // Creating a course
+    Course course(professor, "CS101", "Introduction to Programming", 4);
+    
+    // Registering student for course
+    course.registerStudent(student);
+    
+    // Displaying all information
+    std::cout << "--- Student Information ---\n";
+    student.displayInfo();
+    
+    std::cout << "\n--- Professor Information ---\n";
+    professor.displayInfo();
+    
+    std::cout << "\n--- Staff Information ---\n";
+    staff.displayInfo();
+    
+    std::cout << "\n--- Course Information ---\n";
+    std::cout << "Course ID: CS101\nCourse Name: Introduction to Programming\n";
+    
+    // Calculating grades
+    std::cout << "\n--- Grade Calculation ---\n";
+    course.calculateGrades(85); // Example credits obtained
+    
+    return 0;
+}
