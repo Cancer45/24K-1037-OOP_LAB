@@ -109,7 +109,7 @@ class SecuritySys : public Device
 
     public:
     SecuritySys () {}
-    SecuritySys (std::string device_ID, std::string device_type, double power_rating, bool status, int speed_factor) : Device(device_ID, device_type, power_rating, status) {}
+    SecuritySys (std::string device_ID, std::string device_type, double power_rating, bool status, int speed_factor, std::string security_logs) : Device(device_ID, device_type, power_rating, status), security_logs(security_logs) {}
 
 
     void turnOFF(User user)
@@ -124,8 +124,7 @@ class SecuritySys : public Device
         std::cout << "DEVICE " << device_ID << "TURNED OFF";
     }
 
-    friend void User::accessSecurityLogs (SecuritySys& ss);
-
+    friend class User;
     friend class maintanenceTool;
 };
 
