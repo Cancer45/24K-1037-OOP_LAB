@@ -81,7 +81,7 @@ class AC : public Device
 
     public:
     AC () {}
-    AC (std::string device_ID, std::string device_type, double power_rating, bool status) : Device(device_ID, device_type, power_rating, status), current_temp(current_temp), desired_temp(desired_temp) {}
+    AC (std::string device_ID, std::string device_type, double power_rating, bool status, int current_temp, int desired_temp) : Device(device_ID, device_type, power_rating, status), current_temp(current_temp), desired_temp(desired_temp) {}
 
     void turnON (int intitial_temp)
     {
@@ -98,7 +98,7 @@ class AC : public Device
 
     double calculatePowerUsage (int hours)
     {
-        return power_rating * hours * (1 - (current_temp - desired_temp) / 100);
+        return power_rating * hours * (1 - float(current_temp - desired_temp) / 100);
     }
 };
 
@@ -112,7 +112,7 @@ class SecuritySys : public Device
     SecuritySys (std::string device_ID, std::string device_type, double power_rating, bool status, int speed_factor, std::string security_logs) : Device(device_ID, device_type, power_rating, status), security_logs(security_logs) {}
 
 
-    void turnOFF(User user)
+    void turnOFF()
     {
         if (!status)
         {
@@ -129,8 +129,7 @@ class SecuritySys : public Device
 };
 
 class MaintanenceTool
-{
-
+{	
 };
 
 class User
@@ -142,18 +141,18 @@ class User
     User () {}
     User (std::string user_ID, std::string user_role, int access_lvl) : user_ID(user_ID), user_role(user_role), access_lvl(access_lvl) {}
 
-    void viewAccessibleDevices (Device* all_devices, int num_devices)
+    void viewAccessibleDevices (Device** all_devices, int num_devices)
     {
         for (int i = 0; i < num_devices; i++)
         {
-            if (all_devices[i].getDeviceType() == "SecuritySys")
+            if (all_devices[i] -> getDeviceType() == "SecuritySys")
             {
                 if (access_lvl)
-                std::cout << all_devices[i];
-                continue;
+				{
+					std::cout << all_devices[i];
+					continue;
+				}
             }
-
-            std::cout << all_devices[i];
         }
     }
 
@@ -165,3 +164,35 @@ class User
         }
     }
 };
+
+int main() 
+{
+    // User Setup 
+    User user1("U001", "Regular User", 1); 
+    User user2("U002", "Maintenance Staff", 2); 
+    
+    // Devices Setup 
+    Light light1("L001", "LED Light", 10, false);  
+    Fan fan1("F001", "Ceiling Fan", 75, false, 3); 
+    AC ac1("AC001", "Split AC", 1500, false, 30, 25);  
+    SecuritySys secSys1("S001", "Home Alarm", 100, false, 0, "Log: Intrusion detected"); 
+    
+    // Device Operations
+    light1.turnON();  
+    fan1.turnON();  
+    ac1.turnON(30);  
+    secSys1.turnON(); 
+    
+    // Power Consumption Calculation 
+    std::cout << light1.calculatePowerUsage(5) << " Watts" << std::endl; // 50 Watts 
+    std::cout << fan1.calculatePowerUsage(3) << " Watts" << std::endl; // Based on speed factor  
+    std::cout << ac1.calculatePowerUsage(6) << " Watts" << std::endl; // Adjusted for temp  
+    std::cout << secSys1.calculatePowerUsage(24) << " Watts" << std::endl; // Fixed consumption 
+    
+    // Attempting to access security logs 
+    Device* devices[] = {&light1, &fan1, &ac1, &secSys1};
+    user1.viewAccessibleDevices(devices, 4); // Can see lights, fans, ACs, but NOT security systems  
+    user2.accessSecurityLogs(secSys1); // Allowed to view security logs 
+    
+    return 0;
+}
