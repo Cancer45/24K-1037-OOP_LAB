@@ -41,12 +41,14 @@ class Library
         all_books = tmp_array;
 
         num_books++;
-        std::cout << to_add.getTitle() + " ADDED\n";
+        std::cout << "\n" << to_add.getTitle() + " ADDED\n";
     }
 
     void removeBook (std::string identifier /*use search function*/) 
     {
+        int flag = 0;
         Book to_remove = *searchBook(identifier);
+
         if (searchBook(identifier) != NULL)
         {
             Book* tmp_array = new Book [num_books - 1];
@@ -55,10 +57,11 @@ class Library
         {
             if (all_books[i].ISBN == to_remove.getISBN())
             {
-                
+                flag = 1;
+                continue;
             }
 
-
+            tmp_array[i] = all_books[i + 1];
         }
 
         delete [] all_books;
@@ -70,6 +73,7 @@ class Library
 
         std::cout << "CAN'T REMOVE; NO SUCH BOOK\n";
     }
+
     Book* searchBook (std::string identifier /*could be title, author, or ISBN*/)
     {
         for (int i = 0; i < num_books; i++)
